@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import UserContext from './context/UserContext';
 
 // App Components
-import Header from "./components/Header";
-import Home from "./components/Home";
-import UserSignIn from "./components/UserSignIn";
-import UserSignOut from "./components/UserSignOut";
-import Settings from "./components/Settings";
-import NotFound from "./components/NotFound";
+import Header from './components/Header';
+import Home from './components/Home';
+import UserSignIn from './components/UserSignIn';
+import UserSignOut from './components/UserSignOut';
+import Settings from './components/Settings';
+import NotFound from './components/NotFound';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,45 +29,57 @@ function App() {
   const signInUser = (username, password) => {
     const newUser = {
       username,
-      password
+      password,
     };
     setUser(newUser);
-  }
+  };
 
   const signOutUser = () => {
     setUser(null);
-  }
+  };
 
   const toggleDarkMode = () => {
-    setIsDarkMode(currentMode => !currentMode);
-  }
+    setIsDarkMode((currentMode) => !currentMode);
+  };
 
   return (
-    <div>
-      <Header
-        user={user}
-        accentColor={accentColor} />
-      <Routes>
-        <Route path="/" element={<Home user={user} />} />
-        <Route path="signin" element={
-          <UserSignIn
-            signIn={signInUser}
-            accentColor={accentColor} />
-        } />
-        <Route path="signout" element={<UserSignOut signOut={signOutUser} />} />
-        <Route path="settings" element={
-          <Settings
-            user={user}
-            isDarkMode={isDarkMode}
-            toggleDarkMode={toggleDarkMode}
-            accentColor={accentColor}
-            updateAccentColor={setAccentColor}
-            fontPercentage={fontPercentage}
-            updateFontPercentage={setFontPercentage} />
-        } />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+    <UserContext.Provider>
+      <div>
+        {/* {console.log(UserContext)} */}
+        <Header user={user} accentColor={accentColor} />
+        <Routes>
+          <Route path="/" element={<Home user={user} />} />
+          <Route
+            path="signin"
+            element={
+              <UserSignIn
+                signIn={signInUser}
+                accentColor={accentColor}
+              />
+            }
+          />
+          <Route
+            path="signout"
+            element={<UserSignOut signOut={signOutUser} />}
+          />
+          <Route
+            path="settings"
+            element={
+              <Settings
+                user={user}
+                isDarkMode={isDarkMode}
+                toggleDarkMode={toggleDarkMode}
+                accentColor={accentColor}
+                updateAccentColor={setAccentColor}
+                fontPercentage={fontPercentage}
+                updateFontPercentage={setFontPercentage}
+              />
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </UserContext.Provider>
   );
 }
 
