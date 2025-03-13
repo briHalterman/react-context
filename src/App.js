@@ -43,12 +43,12 @@ function App() {
   };
 
   return (
-    <UserContext.Provider>
+    <UserContext.Provider value={{ user }}>
       <div>
         {/* {console.log(UserContext)} */}
-        <Header user={user} accentColor={accentColor} />
+        <Header accentColor={accentColor} />
         <Routes>
-          <Route path="/" element={<Home user={user} />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="signin"
             element={
@@ -66,7 +66,6 @@ function App() {
             path="settings"
             element={
               <Settings
-                user={user}
                 isDarkMode={isDarkMode}
                 toggleDarkMode={toggleDarkMode}
                 accentColor={accentColor}
